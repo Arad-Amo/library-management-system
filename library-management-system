@@ -1,0 +1,49 @@
+import string
+
+class Encoder:
+    def __init__(self):
+        self.lower = string.ascii_lowercase
+        self.digits = string.digits
+        self.symbols = string.punctuation
+
+    def encode(self):
+        message = input("Enter Message : ")
+        result = []
+        for i in message.lower():
+            if i in self.lower:
+                idx = self.lower.index(i) + 1
+                result.append(str(idx))
+            elif i in self.digits:
+                idx_digits = self.digits.index(i) + 28
+                result.append(str(idx_digits))
+            elif i in self.symbols:
+                result.append(i)
+            else:
+                result.append(str(27))
+        final = "-".join(result)
+        print(final)
+
+    def decode(self):
+        encode_message = input("Enter Encode Message : ")
+        encode_message = encode_message.split("-")
+        result = []
+        for i in encode_message:
+            if i != "-":
+                if i not in self.symbols:
+                    i = int(i)
+                    if i == 27:
+                        result.append(" ")
+                    if i < 27:
+                        char = self.lower[i - 1]
+                        result.append(char)
+                    if 27 < i < 38:
+                        number = self.digits[i - 28]
+                        result.append(number)
+                else:
+                    result.append(i)
+        final = "".join(result)
+        print(final)
+
+Encoder().encode()
+Encoder().decode()
+
